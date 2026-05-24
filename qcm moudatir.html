@@ -1,0 +1,280 @@
+
+<style>
+:root{
+  --font-sans: Inter, Arial, sans-serif;
+
+  --color-text-primary:#f5f5f5;
+  --color-text-secondary:#bdbdbd;
+  --color-text-tertiary:#8a8a8a;
+
+  --color-background-primary:#1e1e1e;
+  --color-background-secondary:#2a2a2a;
+
+  --color-border-primary:#555;
+  --color-border-secondary:#444;
+  --color-border-tertiary:#3a3a3a;
+
+  --border-radius-md:10px;
+  --border-radius-lg:16px;
+}
+
+body{
+  background:#121212;
+  margin:0;
+  padding:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);background:#121212}
+.app{padding:1rem 0}
+h2{font-size:18px;font-weight:500;margin-bottom:.5rem}
+.subtitle{font-size:13px;color:var(--color-text-secondary);margin-bottom:.75rem}
+.cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.75rem}
+.cb{padding:5px 12px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);font-size:12px;cursor:pointer}
+.cb.active{font-weight:500;border-color:transparent}
+.cb[data-c="all"].active{background:#534AB7;color:#EEEDFE}
+.cb[data-c="DIS"].active{background:#0F6E56;color:#E1F5EE}
+.cb[data-c="HLA"].active{background:#185FA5;color:#E6F1FB}
+.cb[data-c="Behcet"].active{background:#993C1D;color:#FAECE7}
+.cb[data-c="SI"].active{background:#3B6D11;color:#EAF3DE}
+.prog{height:3px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:.5rem;overflow:hidden}
+.pb{height:100%;background:#534AB7;transition:width .3s}
+.srow{display:flex;gap:12px;font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem}
+.srow b{color:var(--color-text-primary);font-weight:500}
+.qcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:.75rem}
+.qmeta{display:flex;gap:8px;align-items:center;margin-bottom:.6rem}
+.badge{font-size:11px;padding:2px 9px;border-radius:20px;font-weight:500}
+.badge.DIS{background:#E1F5EE;color:#0F6E56}
+.badge.HLA{background:#E6F1FB;color:#185FA5}
+.badge.Behcet{background:#FAECE7;color:#993C1D}
+.badge.SI{background:#EAF3DE;color:#3B6D11}
+.qnum{font-size:11px;color:var(--color-text-tertiary)}
+.multi-hint{font-size:11px;color:var(--color-text-tertiary);font-style:italic}
+.qtext{font-size:14px;font-weight:500;line-height:1.5;margin-bottom:.75rem}
+.opts{display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:8px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);cursor:pointer;font-size:13px;line-height:1.5;transition:all .15s;user-select:none}
+.opt:hover:not(.locked){background:var(--color-background-secondary)}
+.opt.sel,
+.opt.sel:hover{border-color:#444;background:#1f1f1f;}
+.opt.sel .ltr{background:#534AB7;color:#fff;border-color:#534AB7}
+.opt.cor{border-color:#1D9E75;background:#E1F5EE;color:#111;}
+.opt.cor .ltr{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.opt.wrg{border-color:#E24B4A;background:#FCEBEB;color:#111;}
+.opt.wrg .ltr{background:#E24B4A;color:#fff;border-color:#E24B4A}
+.opt.mis{border-color:#BA7517;background:#FAEEDA;color:#111;}
+.opt.mis .ltr{background:#BA7517;color:#fff;border-color:#BA7517}
+.ltr{width:20px;height:20px;border-radius:50%;border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:1px}
+.submit-btn{padding:6px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-primary);background:var(--color-background-primary);font-size:13px;cursor:pointer;color:var(--color-text-primary)}
+.submit-btn:hover{background:var(--color-background-secondary)}
+.submit-btn:disabled{opacity:.35;cursor:not-allowed;color:#fff;}
+.expl{margin-top:.75rem;padding:.75rem;border-radius:var(--border-radius-md);font-size:12px;line-height:1.7;display:none;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary)}
+.expl.show{display:block}
+.expl-header{font-weight:500;margin-bottom:.4rem;font-size:13px}
+.cor-txt{color:#085041}.wrg-txt{color:#A32D2D}.par-txt{color:#854F0B}
+.nav{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:.5rem}
+.nav button{padding:6px 16px;border-radius:var(--border-radius-md);border:1px solid #555;background:#1f1f1f;color:#fff;font-size:13px;cursor:pointer;}
+.nav button:hover{background:var(--color-background-secondary)}
+.nav button:disabled{opacity:.35;cursor:not-allowed}
+.nctr{font-size:12px;color:var(--color-text-secondary)}
+.legend{display:flex;gap:12px;font-size:11px;margin-bottom:.75rem;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:4px}
+.dot{width:10px;height:10px;border-radius:50%}
+</style>
+
+<div class="app">
+<h2>QCM Avancés — Immunologie & Rhumatologie</h2>
+<p class="subtitle">Une ou plusieurs réponses correctes par question (A–E)</p>
+<div class="cats">
+  <button class="cb active" data-c="all">Tout (40)</button>
+  <button class="cb" data-c="DIS">Déficit immunitaire (10)</button>
+  <button class="cb" data-c="HLA">HLA (10)</button>
+  <button class="cb" data-c="Behcet">Behçet (10)</button>
+  <button class="cb" data-c="SI">Syndrome inflam. (10)</button>
+</div>
+<div class="legend">
+  <span class="leg"><span class="dot" style="background:#1D9E75"></span> Bonne réponse cochée</span>
+  <span class="leg"><span class="dot" style="background:#E24B4A"></span> Mauvaise réponse cochée</span>
+  <span class="leg"><span class="dot" style="background:#BA7517"></span> Bonne réponse manquée</span>
+</div>
+<div class="prog"><div class="pb" id="pb"></div></div>
+<div class="srow">
+  <span>Question <b id="qn">1</b>/<b id="qt">40</b></span>
+  <span>Score : <b id="sc">0</b>/<b id="scmax">0</b></span>
+  <span>✅ <b id="bok">0</b> correctes &nbsp;⚠️ <b id="bpar">0</b> partielles &nbsp;❌ <b id="bko">0</b> fausses</span>
+</div>
+<div id="qa"></div>
+<div class="nav">
+  <button id="bp">← Précédente</button>
+  <span class="nctr" id="nc"></span>
+  <button id="bn">Suivante →</button>
+</div>
+</div>
+
+<script>
+const Q=[
+{c:"DIS",q:"Parmi les propositions suivantes concernant les Déficits Immunitaires Secondaires (DIS), lesquelles sont exactes ?",opts:["Les DIS sont beaucoup plus fréquents que les DIP","La malnutrition est la première cause mondiale de DIS","Les DIS affectent un système immunitaire intrinsèquement anormal","Le rituximab cause une déplétion des lymphocytes B","L'infection VIH au stade SIDA cause principalement un déficit des lymphocytes T"],ans:[0,1,3,4],expl:"A✅ Les DIS sont effectivement beaucoup plus fréquents que les DIP. B✅ La malnutrition est la 1ère cause mondiale de DIS. C❌ FAUX : les DIS affectent un système immunitaire intrinsèquement NORMAL. D✅ Le rituximab (anti-CD20) cause une déplétion spécifique des lymphocytes B. E✅ Le VIH/SIDA entraîne un déficit des LyT, corrélé au taux de CD4 résiduel."},
+{c:"DIS",q:"Concernant le déficit de l'immunité humorale, quelles propositions sont correctes ?",opts:["Les infections sont dues à des germes à parasitisme extracellulaire obligatoire","Le pneumocoque, méningocoque et staphylocoque sont des germes impliqués","Les localisations électives incluent poumon, méninges, sinus et peau","Giardia peut être responsable de gastro-entérite","CMV et Toxoplasma sont les principaux germes"],ans:[0,1,2,3],expl:"A✅ Le déficit humoral prédispose aux germes à parasitisme extracellulaire obligatoire (pyogènes). B✅ Pneumocoque, méningocoque, streptocoque, staphylocoque, pseudomonas, Haemophilus influenzae. C✅ Localisations : poumon, méninges, oreillons, sinus, peau, conjonctives, septicémies. D✅ Giardia est responsable de gastro-entérite dans ce contexte. E❌ FAUX : CMV et Toxoplasma sont les germes du déficit CELLULAIRE (intracellulaire facultatif)."},
+{c:"DIS",q:"Concernant la neutropénie et le risque infectieux, quelles propositions sont exactes ?",opts:["Le risque infectieux est multiplié par 2,5 si PNN < 500/mm³","Le risque infectieux est multiplié par 10 si PNN < 100/mm³","Le risque infectieux dépend uniquement de la profondeur et non de la durée","Le risque infectieux est surtout bactérien et/ou fongique par défaut de phagocytose","Un PNN à 80/mm³ correspond à la catégorie de risque ×10"],ans:[0,1,3,4],expl:"A✅ ×2,5 si PNN < 500/mm³. B✅ ×10 si PNN < 100/mm³. C❌ FAUX : le risque dépend de la DURÉE ET de la profondeur de la neutropénie. D✅ Le risque est surtout bactérien et/ou fongique (défaut de phagocytose). E✅ 80/mm³ < 100/mm³ → catégorie ×10."},
+{c:"DIS",q:"Concernant l'immunité du sujet âgé, lesquelles de ces propositions sont correctes ?",opts:["Involution du thymus et diminution du pool de lymphocytes T naïves","Diminution de la diversité antigénique des lymphocytes B et T","Augmentation de la taille et du nombre des centres germinaux","Diminution de la réponse des cellules NK à l'IL-2","Diminution de l'affinité anticorps-antigène et de l'isotype switching"],ans:[0,1,3,4],expl:"A✅ Involution thymique et ↓ LyT naïves sont des marqueurs clés du vieillissement immunitaire. B✅ ↓ diversité antigénique pour les LyB ET les LyT. C❌ FAUX : il y a une DIMINUTION (et non augmentation) du nombre et de la taille des centres germinaux. D✅ ↓ réponse des NK à l'IL-2 et ↓ cytokines inflammatoires. E✅ ↓ affinité Ac-Ag et ↓ isotype switching dans le vieillissement immunitaire."},
+{c:"DIS",q:"Concernant le DIS associé aux hémopathies, quelles associations sont correctes ?",opts:["Déficit des PN (qualitatif et quantitatif) dans LA, MDH, LMNH","Déficit de l'immunité humorale dans le myélome multiple et la LLC","Déplétion lymphocytaire B par le rituximab","Déplétion lymphocytaire T par la fludarabine","Le risque infectieux du déficit cellulaire est corrélé au taux de CD4 résiduel"],ans:[0,1,2,3,4],expl:"A✅ Déficit des PN dans LA, MDH, LMNH. B✅ Déficit immunité humorale dans MMO (myélome) et LLC. C✅ Rituximab → déplétion lymphocytaire B (anti-CD20). D✅ Fludarabine → chimio-lymphopénie. E✅ Déficit cellulaire corrélé au taux de CD4 résiduel (comme dans le VIH)."},
+{c:"DIS",q:"Concernant les micronutriments et l'immunité, quelles propositions sont exactes ?",opts:["La carence en zinc entraîne une lymphopénie et une diminution des cytokines Th1","La vitamine D en carence peut causer une hypogammaglobulinémie","La vitamine C intervient comme 'metabolic checkpoint' pour la survie des cellules immunocompétentes","La vitamine E augmente la synthèse des PGE2 renforçant l'immunité","Le sélénium a un effet antioxydant affectant les lymphocytes et les cellules NK"],ans:[0,1,2,4],expl:"A✅ Zinc/cuivre : essentiel pour la fonction thymique → lymphopénie et ↓ cytokines Th1. B✅ Vit D en carence → hypogammaglobulinémie + ↓ fonction des PNN, macrophages, NK. C✅ Vit C : metabolic checkpoint, survie des cellules immunocompétentes. D❌ FAUX : la vit E RÉDUIT (et non augmente) la synthèse des PGE2. E✅ Sélénium : effet antioxydant → lymphocytes et NK."},
+{c:"DIS",q:"Concernant le diabète sucré et le déficit immunitaire, quelles propositions sont exactes ?",opts:["2/3 des septicémies des malades hospitalisés sont liées au diabète","Le taux de mortalité par complications infectieuses des acidocétoses est de 13%","Le taux et la fonction des immunoglobulines sont normaux","La réponse à la vaccination est normale dans le diabète","La prolifération lymphocytaire après stimulation antigénique est diminuée"],ans:[0,1,2,3,4],expl:"A✅ 2/3 des septicémies des hospitalisés sont associées au diabète. B✅ Taux de mortalité 13% pour les complications infectieuses des acidocétoses. C✅ Dans le diabète, le taux et la fonction des Ig sont normaux. D✅ Réponse normale à la vaccination (important à retenir). E✅ Immunité cellulaire : ↓ prolifération lymphocytaire après stimulation antigénique."},
+{c:"DIS",q:"Concernant les signes d'alerte d'un déficit immunitaire, lesquels sont corrects ?",opts:["Infections récurrentes à germes atypiques et sites particuliers","Plus de deux épisodes de septicémie","Abcès profonds de la peau ou des organes","Candidose cutanée chronique ou muguet buccal persistant","Une seule pneumonie communautaire non sévère chez l'adulte jeune"],ans:[0,1,2,3],expl:"A✅ Infections récurrentes, germes atypiques, sites particuliers et sévérité accrue = signes d'alerte majeurs. B✅ Plus de 2 épisodes de septicémie = signe d'alerte. C✅ Abcès profonds de la peau ou des organes = signe d'alerte. D✅ Candidose cutanée chronique ou muguet buccal = manifestation infectieuse persistante d'alerte. E❌ Une seule pneumonie communautaire non sévère ne constitue pas en soi un signe d'alerte de DI."},
+{c:"DIS",q:"Parmi ces médicaments, lesquels peuvent causer un déficit immunitaire secondaire ?",opts:["Carbamazépine (hypogammaglobulinémie)","Rituximab (déplétion lymphocytaire B)","Infliximab (atteinte immunité à médiation cellulaire)","Ciclosporine (immunosuppresseur)","Amoxicilline"],ans:[0,1,2,3],expl:"A✅ Carbamazépine = anti-épileptique pouvant causer hypogammaglobulinémie (comme diphénylhydantoïne, valproate). B✅ Rituximab = déplétion lymphocytaire B (anti-CD20). C✅ Infliximab (anti-TNFα) = affecte l'immunité à médiation cellulaire. D✅ Ciclosporine = immunosuppresseur classique. E❌ L'amoxicilline est un antibiotique sans effet immunosuppresseur direct."},
+{c:"DIS",q:"Concernant la prise en charge du DIS, quelles propositions sont exactes ?",opts:["L'antibiothérapie probabiliste est souvent nécessaire en urgence","Le G-CSF est un facteur de croissance hématopoïétique agissant sur les effecteurs","Les vaccinations font partie de la prévention par action sur les germes","Les immunoglobulines peuvent corriger un déficit de l'immunité humorale","L'antibioprophylaxie est toujours contre-indiquée dans le DIS"],ans:[0,1,2,3],expl:"A✅ Traitement curatif : souvent en urgence avec antibiothérapie probabiliste. B✅ G-CSF = facteur de croissance hématopoïétique → action sur les effecteurs de l'immunité. C✅ Vaccinations = prévention par action sur les germes (avec antibioprophylaxie). D✅ Immunoglobulines = action sur les effecteurs de l'immunité (remplacement). E❌ FAUX : l'antibioprophylaxie fait partie des mesures préventives recommandées."},
+{c:"HLA",q:"Concernant l'organisation génomique du système HLA, quelles propositions sont exactes ?",opts:["Localisé sur le bras court du chromosome 6","Complexe génique de 86 gènes occupant ~4000 Kb","La région classe 2 (DR, DQ, DP) est la plus centromérique","La région classe 1 (A, B, C) mesure 2000 Kb et est la plus télomérique","La région classe 3 code certaines protéines du complément et cytokines"],ans:[0,1,2,3,4],expl:"A✅ Bras court du chromosome 6. B✅ 86 gènes, ~4000 Kb (= 1/1000e du génome). C✅ Classe 2 = la plus centromérique (1000 Kb). D✅ Classe 1 = la plus télomérique (2000 Kb). E✅ La région classe 3 code certaines protéines du complément et certaines cytokines."},
+{c:"HLA",q:"Concernant HLA classe 1, quelles propositions sont exactes ?",opts:["Présente les peptides d'origine endogène aux LyT CD8+","Hétérodimère composé d'une chaîne lourde α et de la β2-microglobuline","La gouttière peptidique est formée entre les domaines α1 et α2","Exprimé sur toutes les cellules nucléées de l'organisme","Le fond de la gouttière est constitué d'hélices α et les bords d'un feuillet β plissé"],ans:[0,1,2,3],expl:"A✅ Présentation des peptides endogènes (ADN cellulaire ou viral) aux LyT CD8+. B✅ Hétérodimère : chaîne lourde α + β2-microglobuline (chaîne légère). C✅ La gouttière est entre α1 et α2. D✅ Distribution ubiquitaire sur toutes cellules nucléées (antigènes tissulaires). E❌ FAUX : c'est l'INVERSE — le fond est un feuillet β plissé et les BORDS sont des hélices α."},
+{c:"HLA",q:"Concernant HLA classe 2, quelles propositions sont exactes ?",opts:["Présente les peptides d'origine exogène aux LyT CD4+","Hétérodimère formé de l'association non covalente des chaînes α et β","La cavité de liaison du peptide est formée par les domaines α1 et β1","Expression restreinte aux cellules présentatrices d'antigènes","Subdivisé en 3 sous-régions : HLA-DR, DQ, DP"],ans:[0,1,2,3,4],expl:"A✅ Présente les peptides exogènes aux LyT CD4+. B✅ Association non covalente des chaînes α et β. C✅ Cavité formée par α1 et β1 (différent de classe 1 : α1 et α2). D✅ Expression restreinte aux CPA (cellules dendritiques, macrophages, LyB). E✅ 3 sous-régions : DR, DQ, DP."},
+{c:"HLA",q:"Concernant la nomenclature HLA, quelles propositions sont exactes ?",opts:["HLA-B27 : locus B, spécificité sérologique numéro 27","HLA-B*2705 : allèle B27, variant 05","Un allèle est référencé par le locus + * + chiffres précisant la spécificité allélique","La biologie moléculaire (+++) est la méthode de référence pour identifier les gènes","Le produit HLA est appelé Ag HLA"],ans:[0,1,2,3,4],expl:"A✅ HLA-B27 = locus B, spécificité 27 (nomenclature sérologique). B✅ HLA-B*2705 = locus B*, allèle 27, variant 05 (nomenclature moléculaire). C✅ L'allèle est référencé : locus + * + 2 chiffres (spécificité) + 4-5 chiffres (variant). D✅ Biologie moléculaire (+++) = méthode de référence pour identifier les gènes HLA. E✅ Région génique = Locus, allèles = Gènes, produit HLA = Ag HLA."},
+{c:"HLA",q:"Quelles associations HLA-maladies sont correctes ?",opts:["HLA-B27 et spondylarthropathie (SPA)","HLA-B51 et maladie de Behçet (50-80%)","DRB1*0401 et polyarthrite rhumatoïde (60-85%)","HLA-A3 et hémochromatose idiopathique","DR3 et lupus érythémateux systémique"],ans:[0,1,2,3,4],expl:"A✅ Association forte HLA-B27 et SPA. B✅ HLA-B51 (surtout B5101) dans 50-80% des Behçet. C✅ DRB1*0401 et PR dans 60-85% des cas. D✅ HLA-A3 et hémochromatose idiopathique. E✅ DR3 et lupus (DR3 est aussi associé à la maladie de Basedow)."},
+{c:"HLA",q:"Concernant la transmission et le polymorphisme HLA, quelles propositions sont exactes ?",opts:["Les gènes HLA sont transmis en bloc par haplotypes entiers","Chaque gène HLA est autosomique dominant","Un couple peut donner 4 combinaisons haplotipiques différentes","Les classes HLA I et II sont les gènes les plus polymorphes du génome humain","25% des enfants d'un même couple sont HLA-identiques"],ans:[0,1,2,3,4],expl:"A✅ Transmission en bloc par haplotypes entiers des parents aux enfants. B✅ Autosomique dominant. C✅ 2 haplotypes paternels (a,b) × 2 maternels (c,d) = 4 combinaisons. D✅ Classes I et II = les plus polymorphes du génome humain (plus grande diversité allélique). E✅ Identiques dans 25% des cas (1/4 combinaisons)."},
+{c:"HLA",q:"Concernant les rôles physiologiques du système HLA, lesquels sont exacts ?",opts:["Présentation des peptides Ag au récepteur des lymphocytes T","Rôle dans la transplantation d'organe et la greffe de moelle","Immunosurveillance anti-tumorale","Marqueur de susceptibilité aux maladies auto-immunes","Synthèse directe des anticorps spécifiques"],ans:[0,1,2,3],expl:"A✅ Fonction principale : sélection, transport et présentation des fragments peptidiques aux LyT. B✅ CMH = rôle primordial dans les processus de rejet de greffe. C✅ Perte d'expression HLA classe 1 par les cellules tumorales → échappement aux LyT CD8+. D✅ Certains allèles HLA = marqueurs de susceptibilité/protection pour les MAI. E❌ FAUX : la synthèse des anticorps est assurée par les plasmocytes (LyB activés), pas par le CMH."},
+{c:"HLA",q:"Concernant HLA et les maladies auto-immunes, quelles associations sont correctes ?",opts:["Maladie cœliaque : DQA1*0501, DQB1*0201 (classe 2, 90%)","Sclérose en plaques : DR2 et DQ6","Maladie de Basedow : DR3","Diabète type 1 : DR4 et DR3","Behçet juvénile : HLA-B15"],ans:[0,1,2,3,4],expl:"A✅ Maladie cœliaque : DQA1*0501 et DQB1*0201 (classe 2), dans 90% des cas. B✅ Sclérose en plaques : DR2, DQ6. C✅ Maladie de Basedow : DR3. D✅ Diabète type 1 : DR4 et DR3. E✅ HLA-B15 est associé au Behçet juvénile (B51 pour l'adulte)."},
+{c:"HLA",q:"Concernant les méthodes d'identification HLA et leurs applications, lesquelles sont correctes ?",opts:["La sérologie permet d'identifier les molécules à la surface des cellules","La biologie moléculaire est préférentielle (+++) pour l'identification des gènes","Le typage HLA est utilisé pour la détermination de filiation paternelle","Les perte d'expression HLA classe 1 par les tumeurs favorisent l'échappement aux LyT CD8+","Le typage HLA seul a un fort impact diagnostique sur les maladies auto-immunes"],ans:[0,1,2,3],expl:"A✅ Sérologie = identification des molécules en surface (définition des allo-antigènes). B✅ Biologie moléculaire +++ = méthode de référence. C✅ Application en médecine légale (test de paternité). D✅ Perte d'expression HLA I par cellules tumorales → échappement à la destruction par les LyT CD8+. E❌ FAUX : isolé, le système HLA a un impact diagnostique FAIBLE ; il contribue à l'approche diagnostique uniquement associé aux autres critères cliniques et biologiques."},
+{c:"HLA",q:"Concernant HLA et la transplantation d'organe, quelles propositions sont exactes ?",opts:["Il existe un risque de rejet immunologique si le donneur et le receveur ne sont pas génétiquement identiques","La réponse immune cellulaire est impliquée dans le rejet","La réponse humorale par anticorps est impliquée dans le rejet","Un typage HLA identique élimine totalement tout risque de rejet","Le CMH est le centre de commande de la reconnaissance du soi et du non-soi"],ans:[0,1,2,4],expl:"A✅ Risque de rejet immunologique si non-identité génétique. B✅ Réponse immune cellulaire impliquée. C✅ Réponse humorale par Ac impliquée. D❌ FAUX : un typage HLA identique RÉDUIT mais n'élimine pas totalement le risque de rejet (autres systèmes d'histocompatibilité mineurs). E✅ Le CMH est l'unité fonctionnelle vitale, centre de commande de la reconnaissance du soi/non-soi."},
+{c:"Behcet",q:"Concernant l'épidémiologie et les généralités de la maladie de Behçet, quelles propositions sont correctes ?",opts:["La maladie a été décrite par Hulusi Behçet en 1937","Le sex-ratio est de 8 hommes pour 2 femmes","Le pic de fréquence est entre 20-30 ans","Le nombre de cas estimé au Maroc est de 5000 à 10000","Le diagnostic est uniquement biologique"],ans:[0,1,2,3],expl:"A✅ Décrite par Hulusi Behçet en 1937. B✅ Sex-ratio : 8H/2F. C✅ Pic : 20-30 ans, rare > 60 ans. D✅ 5000-10000 cas au Maroc. E❌ FAUX : le diagnostic est CLINIQUE (pas biologique)."},
+{c:"Behcet",q:"Concernant la pathogénie de la maladie de Behçet, quelles propositions sont exactes ?",opts:["HLA-B51 est fréquemment retrouvé chez les patients","Le gène MICA, proche de HLA classe 1, est impliqué","L'infiltrat de cellules T CD4+ produit des cytokines : IL2, IL10, IL12, IFNγ, TNF-β","L'herpès virus, le VHC et le streptocoque sont des facteurs infectieux possibles","L'origine est strictement génétique sans rôle infectieux"],ans:[0,1,2,3],expl:"A✅ HLA-B51 retrouvé dans 50-80% des cas. B✅ Gène MICA (proche HLA classe 1) chez les sujets atteints. C✅ Infiltrat T CD4+ → IL2, IL10, IL12, IFNγ, TNF-β. D✅ Herpès virus, VHC, streptocoque = facteurs infectieux potentiels. E❌ FAUX : l'origine est MULTIFACTORIELLE, l'infection pouvant avoir un rôle inducteur sur terrain génétique prédisposant."},
+{c:"Behcet",q:"Concernant les aphtes buccaux dans la maladie de Behçet, quelles propositions sont correctes ?",opts:["Présents dans 98% des cas et constituent le critère majeur du diagnostic","Ulcérations tapissées d'un enduit 'beurre frais' avec pourtour inflammatoire","Guérissent sans laisser de cicatrice","Peuvent siéger sur les amygdales, le pharynx et le palais","Favorisés par les traumatismes dentaires, les cycles menstruels et les émotions"],ans:[0,1,2,3,4],expl:"A✅ 98% des cas, critère majeur. B✅ Ulcérations tapissées d'un enduit beurre frais avec pourtour inflammatoire douloureux. C✅ Guérison sans cicatrice (≠ aphtes génitaux qui laissent des cicatrices dépigmentées). D✅ Siège : face interne lèvres, joues, sillon gingivo-labial, langue, plancher buccal, palais, amygdales, pharynx. E✅ Facteurs déclenchants : alimentation (fruits, noix), traumatismes dentaires, cycles menstruels, émotions."},
+{c:"Behcet",q:"Concernant l'atteinte vasculaire veineuse dans la maladie de Behçet, quelles propositions sont exactes ?",opts:["Les thromboses veineuses des membres inférieurs sont les plus fréquentes (60-70%)","La bilatéralisation d'emblée ou à bascule est caractéristique","Le syndrome de Budd-Chiari correspond aux thromboses des veines sus-hépatiques","Les embolies pulmonaires sont très fréquentes et représentent un risque majeur","La thrombose cave représente 9,5% des cas au Maroc"],ans:[0,1,2,4],expl:"A✅ TVP membres inférieurs = les plus fréquentes (60-70%). B✅ Bilatérale d'emblée ou à bascule. C✅ Budd-Chiari = thromboses veines sus-hépatiques. D❌ FAUX : au contraire, il y a PEU d'embolies pulmonaires (le thrombus est adhérent en raison des phénomènes inflammatoires pariétaux). E✅ Thrombose cave : Maroc = 9,5%."},
+{c:"Behcet",q:"Concernant le pathergy test dans la maladie de Behçet, quelles propositions sont correctes ?",opts:["Il s'agit d'une hypersensibilité aux points cutanés","La piqûre est faite avec une aiguille stérile G20 à la face antérieure de l'avant-bras","La lecture se fait à 48 heures","Un résultat positif = pseudo-folliculite nécrotique de diamètre > 2mm","La valeur du test est plus élevée dans les populations orientales"],ans:[0,1,2,3,4],expl:"A✅ Hyperréactivité cutanée aspécifique aux agressions de l'épithélium. B✅ Aiguille stérile G20, face antérieure de l'avant-bras, en sous-cutané et/ou intraveineux. C✅ Lecture à 48 heures. D✅ Pseudo-folliculite nécrotique, diamètre > 2mm = positif. E✅ Valeur du test supérieure dans les populations orientales."},
+{c:"Behcet",q:"Concernant l'atteinte oculaire dans la maladie de Behçet, quelles propositions sont exactes ?",opts:["Elle est la 3ème manifestation en fréquence après les atteintes cutanée et articulaire","C'est la 1ère cause de cécité évitable chez l'adulte jeune au Maroc","L'uvéite postérieure est pratiquement constante et associée à une vasculite occlusive","L'uvéite antérieure à hypopion est constante et ne régresse jamais","La bilatéralisation des lésions peut être rapide"],ans:[0,1,2,4],expl:"A✅ 3ème rang après l'atteinte cutanée et articulaire. B✅ 1ère cause de cécité évitable au Maroc chez l'adulte jeune. C✅ Uvéite postérieure : pratiquement constante, vasculite occlusive et nécrosante + tyndall vitréen. D❌ FAUX : l'uvéite antérieure à hypopion est INCONSTANTE et RÉGRESSE rapidement. E✅ Bilatéralisation rapide possible."},
+{c:"Behcet",q:"Concernant les critères diagnostiques de Behçet (critères internationaux 1990 et ICBD), quelles propositions sont exactes ?",opts:["L'ulcération orale récurrente est le critère majeur nécessitant ≥ 2 autres critères","Le test pathergique est lu par un médecin à 24 ou 48 heures","L'atteinte oculaire vaut 2 points dans le score ICBD","L'aphtose buccale vaut 2 points dans le score ICBD","Un score ICBD ≥ 4 est en faveur du diagnostic"],ans:[0,1,2,3,4],expl:"A✅ Ulcération orale récurrente = critère majeur + ≥2 autres critères (1990). B✅ Pathergy test lu à 24 ou 48h par un médecin. C✅ Score ICBD : atteinte oculaire = 2pts. D✅ Score ICBD : aphtose buccale = 2pts (comme aphtose génitale = 2pts). E✅ Score ICBD ≥ 4 = en faveur du diagnostic de Behçet."},
+{c:"Behcet",q:"Concernant l'atteinte neurologique de la maladie de Behçet, quelles propositions sont correctes ?",opts:["La fréquence est de 15-20%","Les thrombophlébites cérébrales représentent 30% des manifestations neurologiques","L'atteinte du SNC comprend méningites, myélites et paralysies des nerfs crâniens","L'atteinte du SNP est plus fréquente que celle du SNC","Le pronostic neurologique est amélioré par les corticoïdes et les immunosuppresseurs"],ans:[0,1,2,4],expl:"A✅ Fréquence : 15-20%. B✅ Thrombophlébites cérébrales = 30% des manifestations neurologiques. C✅ Atteintes SNC : méningites, méningo-encéphalites, myélites, paralysies nerfs crâniens, signes pyramidaux. D❌ FAUX : l'atteinte du SNP est MOINS fréquente que celle du SNC. E✅ Pronostic amélioré par corticoïdes et immunosuppresseurs, et vraisemblablement par leur rapidité d'administration."},
+{c:"Behcet",q:"Concernant l'atteinte artérielle et cardiaque dans la maladie de Behçet, quelles propositions sont exactes ?",opts:["L'atteinte artérielle concerne 80% des hommes","Elle survient généralement 7 à 10 ans après le début de la maladie","La péricardite représente 29%, fébrile et récidivante","Une thrombose intracardiaque est retrouvée dans 29% des cas","L'insuffisance aortique représente 25% des atteintes endocardiques"],ans:[0,1,2,3,4],expl:"A✅ Atteinte artérielle : homme = 80% des cas. B✅ Survient 7-10 ans après le début. C✅ Péricardite : 29%, fébrile, banale, récidivante (tamponnade très rare). D✅ Thrombose intracardiaque : 29%. E✅ Insuffisance aortique : 25% des atteintes endocardiques."},
+{c:"Behcet",q:"Parmi les diagnostics différentiels des aphtes dans Behçet, lesquels sont cités ?",opts:["Maladie de Crohn et rectocolite hémorragique","Déficits en vitamines B12, fer, folates, zinc","Chancre de syphilis primaire","Stomatite herpétique","Agranulocytose et neutropénie cyclique idiopathique"],ans:[0,1,2,3,4],expl:"A✅ Maladie de Crohn et RCH. B✅ Déficits en vit. B12, fer, folates, zinc. C✅ Chancre de syphilis primaire. D✅ Stomatite herpétique. E✅ Agranulocytose et neutropénie cyclique idiopathique — toutes ces étiologies font partie des diagnostics différentiels des aphtoses."},
+{c:"SI",q:"Concernant les protéines de l'inflammation, quelles propositions sont exactes ?",opts:["La CRP est une protéine de cinétique rapide avec une demi-vie de 24 heures","L'haptoglobine est une protéine de cinétique lente avec une demi-vie de 4 jours","L'albumine est une protéine dont le taux s'ABAISSE lors de l'inflammation","La procalcitonine est une protéine de cinétique lente","Le fibrinogène a un taux plasmatique normal entre 2 et 4 g/l"],ans:[0,1,2,4],expl:"A✅ CRP : cinétique rapide, ↑ dès 8ème heure, demi-vie 24h. B✅ Haptoglobine : cinétique lente (3-4 jours), demi-vie 4 jours. C✅ Albumine, préalbumine, transferrine, fibronectine, apolipoprotéine A s'ABAISSENT. D❌ FAUX : la procalcitonine est une protéine de cinétique RAPIDE (comme la CRP). E✅ Fibrinogène : taux normal 2-4 g/l, demi-vie 4-6 jours."},
+{c:"SI",q:"Concernant la vitesse de sédimentation (VS), quelles propositions sont correctes ?",opts:["Chez une femme de 50 ans, la VS normale est ≤ 30 mm à la 1ère heure","La sensibilité est de 98% et la spécificité de 50%","La grossesse et la pilule œstroprogestative accélèrent la VS","La drépanocytose accélère la VS","La valeur prédictive positive est de 89% chez le sujet symptomatique"],ans:[0,1,2,4],expl:"A✅ Femme : (50+10)/2 = 30 mm. B✅ Sensibilité 98%, spécificité 50%. C✅ Grossesse et pilule = facteurs physiologiques d'accélération. D❌ FAUX : la drépanocytose est un facteur pathologique de DIMINUTION de la VS. E✅ VPP : 89% chez le sujet symptomatique (mauvaise chez l'asymptomatique = 46%)."},
+{c:"SI",q:"Parmi ces protéines, lesquelles s'abaissent lors de l'inflammation ?",opts:["Albumine","Préalbumine","Orosomucoïde","Transferrine","Fibronectine"],ans:[0,1,3,4],expl:"A✅ Albumine : jusqu'à 20 g/l dans les SI sévères. B✅ Préalbumine. C❌ FAUX : l'orosomucoïde est une protéine qui AUGMENTE lors de l'inflammation (cinétique lente, demi-vie 2,3 jours). D✅ Transferrine. E✅ Fibronectine. Les protéines négatives de l'inflammation sont : albumine, préalbumine, transferrine, fibronectine, apolipoprotéine A."},
+{c:"SI",q:"Concernant la CRP, quelles propositions sont exactes ?",opts:["Taux sérique normal < 6 mg/l","Une CRP > 200 mg/l est très évocatrice d'une infection bactérienne","Dans le lupus, une CRP > 60 mg/l évoque une infection ou une sévérité","La CRP est un marqueur d'évolutivité de la PR et de la maladie de Horton","Après un traitement efficace, la CRP se normalise en 48 heures grâce à sa demi-vie de 24h"],ans:[0,1,2,3,4],expl:"A✅ Taux normal < 6 mg/l. B✅ CRP > 200 mg/l = infection bactérienne très probable. C✅ LES > 60 mg/l = infection ou sévérité. D✅ Marqueur d'évolutivité dans la PR, Horton. E✅ Demi-vie 24h → diminution des taux en 48h après traitement efficace."},
+{c:"SI",q:"Concernant l'hémogramme dans le syndrome inflammatoire, quelles propositions sont exactes ?",opts:["L'anémie est normocytaire normochrome sans réaction réticulocytaire","L'anémie apparaît après 3 à 4 semaines d'inflammation","La ferritine est augmentée tandis que le fer sérique et la transferrine sont abaissés","L'hyperplaquettose est proportionnelle au degré d'inflammation","Une leucopénie est évocatrice de lupus"],ans:[0,1,2,3,4],expl:"A✅ Anémie normocytaire, normochrome, sans réaction réticulocytaire. B✅ Apparaît après 3-4 semaines. C✅ Fer sérique ↓, transferrine ↓, ferritine ↑ (séquestration du fer). D✅ Thrombocytose proportionnelle au degré d'inflammation. E✅ Leucopénie évocatrice de LES."},
+{c:"SI",q:"Concernant les étiologies des syndromes inflammatoires chroniques, quelles propositions sont exactes ?",opts:["Les étiologies infectieuses représentent 50 à 70% des cas","Les néoplasies représentent moins de 10% des cas","LES, Horton, Wegener, PR, SPA sont des étiologies systémiques","La dissection aortique et les anévrysmes sont des étiologies cardiovasculaires","Les étiologies auto-immunes sont les plus fréquentes devant les infectieuses"],ans:[0,1,2,3],expl:"A✅ Infectieuses : 50-70% (endocardites, tuberculose, abcès profond, parasitoses, mycoses, infections virales chroniques). B✅ Néoplasiques : < 10% (cancers solides, hémopathies, lymphomes). C✅ LES, Horton, Wegener, PR, SPA, MICI = étiologies systémiques et inflammatoires. D✅ TVP, IDM, péricardites, thromboses intracardiaques, dissections aortiques, anévrysmes = étiologies cardiovasculaires. E❌ FAUX : les étiologies infectieuses (50-70%) sont les plus fréquentes, devant les étiologies auto-immunes."},
+{c:"SI",q:"Parmi ces éléments, lesquels font partie du bilan de 1ère intention devant un syndrome inflammatoire inexpliqué ?",opts:["IDR tuberculine et hémoculture si T° > 38°C","Sérologies VHB, VHC, VIH, EBV, CMV, Lyme","Panoramique dentaire et radiographie des sinus","Marqueurs tumoraux : PSA, ACE, CA125","PET-scanner et BOM (biopsie ostéo-médullaire)"],ans:[0,1,2,3],expl:"A✅ IDR tuberculine et hémocultures si T° > 38°C font partie du bilan de 1ère intention. B✅ Sérologies VHB, VHC, VIH, EBV/CMV, Lyme, Yersinia, Toxoplasmose, syphilis. C✅ Panoramique dentaire et Rx des sinus (foyer dentaire/sinusien). D✅ Marqueurs tumoraux (PSA, ACE, CA125) et BAT si > 65 ans. E❌ FAUX : le PET-scanner et la BOM font partie du bilan de 2ÈME intention."},
+{c:"SI",q:"Concernant le bilan de 2ème intention devant un syndrome inflammatoire inexpliqué, quelles propositions sont exactes ?",opts:["PET-scanner","HLA-B27","Fibroscopie bronchique avec lavage broncho-alvéolaire (LBA)","Biopsie hépatique et BOM (biopsie ostéo-médullaire)","Sérologie VHB, VHC, VIH"],ans:[0,1,2,3],expl:"A✅ PET-scanner = bilan de 2ème intention. B✅ HLA-B27 = bilan de 2ème intention. C✅ Fibroscopie bronchique avec LBA = 2ème intention. D✅ Biopsie hépatique et BOM = 2ème intention. E❌ FAUX : la sérologie VHB, VHC, VIH fait partie du bilan de 1ÈRE intention."},
+{c:"SI",q:"Concernant la démarche diagnostique devant un syndrome inflammatoire, quelles propositions sont correctes ?",opts:["En post-opératoire, la CRP se normalise en 10 jours","La VS se normalise en 3 à 6 semaines après une affection aiguë","2/3 des syndromes inflammatoires inexpliqués régressent spontanément en 3 à 6 mois","Une réascension de la CRP post-opératoire évoque une complication (hématome, infection, thrombose)","En cas de SI inexpliqué chez un sujet asymptomatique à l'état général conservé, une surveillance régulière est préférable aux examens pratiqués à l'aveugle"],ans:[0,1,2,3,4],expl:"A✅ CRP normalisation en 10 jours en post-opératoire (vs VS : 3-6 semaines). B✅ VS normalisation en 3-6 semaines (beaucoup plus lentement que la CRP). C✅ 2/3 des SI inexpliqués régressent spontanément en 3-6 mois. D✅ CRP ↑ ou réascension post-op = complication (hématome, infection, thrombose). E✅ Surveillance régulière souvent plus profitable qu'examens à l'aveugle chez le sujet asymptomatique."},
+{c:"SI",q:"Concernant les facteurs d'accélération pathologiques de la VS, lesquels sont corrects ?",opts:["Syndrome néphrotique","Insuffisance rénale chronique","Hyperlipidémie et obésité","Hypergammaglobulinémie monoclonale ou polyclonale","Polyglobulie"],ans:[0,1,2,3],expl:"A✅ Syndrome néphrotique → perte des protéines et modification du profil protéique → accélération VS. B✅ Insuffisance rénale chronique. C✅ Hyperlipidémie et obésité. D✅ Hypergammaglobulinémie poly ou monoclonale. E❌ FAUX : la polyglobulie est un facteur pathologique de DIMINUTION de la VS (augmentation de l'hématocrite qui s'oppose à la sédimentation)."},
+];
+
+let deck=[...Q],idx=0,answered={},cur_cat='all';
+
+const catLabel={DIS:'Déficit Immunitaire',HLA:'HLA & Maladies',Behcet:'Maladie de Behçet',SI:'Syndrome Inflammatoire'};
+
+function setDeck(){deck=cur_cat==='all'?[...Q]:Q.filter(x=>x.c===cur_cat);idx=0;answered={};render();}
+
+function calcStats(){
+  let ok=0,par=0,ko=0,sc=0;
+  Object.entries(answered).forEach(([i,v])=>{
+    if(v.submitted){
+      const q=deck[i];const a=q.ans;const sel=v.sel;
+      const allCor=a.every(x=>sel.includes(x))&&sel.every(x=>a.includes(x));
+      const anyCor=sel.some(x=>a.includes(x));
+      const anyWrg=sel.some(x=>!a.includes(x));
+      if(allCor){ok++;sc+=2;}
+      else if(anyCor&&!anyWrg){par++;sc+=1;}
+      else{ko++;}
+    }
+  });
+  return{ok,par,ko,sc,total:Object.values(answered).filter(v=>v.submitted).length};
+}
+
+function render(){
+  if(!deck.length){document.getElementById('qa').innerHTML='<p style="color:var(--color-text-secondary);padding:1rem">Aucune question.</p>';return;}
+  const q=deck[idx];const a=answered[idx]||{sel:[],submitted:false};
+  const {ok,par,ko,sc,total}=calcStats();
+  document.getElementById('qn').textContent=idx+1;
+  document.getElementById('qt').textContent=deck.length;
+  document.getElementById('sc').textContent=sc;
+  document.getElementById('scmax').textContent=total*2;
+  document.getElementById('bok').textContent=ok;
+  document.getElementById('bpar').textContent=par;
+  document.getElementById('bko').textContent=ko;
+  document.getElementById('pb').style.width=((idx+1)/deck.length*100)+'%';
+  document.getElementById('nc').textContent=(idx+1)+'/'+deck.length;
+  document.getElementById('bp').disabled=idx===0;
+  document.getElementById('bn').disabled=idx===deck.length-1;
+
+  const sub=a.submitted;
+  let optsHtml=q.opts.map((o,i)=>{
+    let cls='opt';
+    if(sub){
+      cls+=' locked';
+      if(q.ans.includes(i)&&a.sel.includes(i))cls=' opt locked cor';
+      else if(!q.ans.includes(i)&&a.sel.includes(i))cls=' opt locked wrg';
+      else if(q.ans.includes(i)&&!a.sel.includes(i))cls=' opt locked mis';
+    } else {
+      if(a.sel.includes(i))cls+=' sel';
+    }
+    return `<div class="${cls}" onclick="toggleOpt(${i})" data-idx="${i}">
+      <span class="ltr">${'ABCDE'[i]}</span>
+      <span>${o}</span>
+    </div>`;
+  }).join('');
+
+  let explHtml='';
+  if(sub){
+    const allCor=q.ans.every(x=>a.sel.includes(x))&&a.sel.every(x=>q.ans.includes(x));
+    const anyCor=a.sel.some(x=>q.ans.includes(x));
+    const anyWrg=a.sel.some(x=>!q.ans.includes(x));
+    let res='';
+    if(allCor)res=`<span class="cor-txt">✅ Réponse totalement correcte (+2 pts)</span>`;
+    else if(anyCor&&!anyWrg)res=`<span class="par-txt">⚠️ Partiellement correct (+1 pt) — des réponses correctes n'ont pas été cochées</span>`;
+    else res=`<span class="wrg-txt">❌ Réponse incorrecte (0 pt)</span>`;
+    const corrStr=q.ans.map(i=>'<b>'+('ABCDE'[i])+'</b>').join(', ');
+    explHtml=`<div class="expl show">
+      <div class="expl-header">${res}</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:.4rem">Réponses correctes : ${corrStr}</div>
+      <div style="font-size:12px;line-height:1.7">${q.expl}</div>
+    </div>`;
+  }
+
+  let endHtml='';
+  if(idx===deck.length-1&&sub&&Object.values(answered).filter(v=>v.submitted).length===deck.length){
+    const{ok,par,ko,sc}=calcStats();const max=deck.length*2;const pct=Math.round(sc/max*100);
+    const msg=pct>=80?'Excellent ! 🎉':pct>=60?'Bien ! Continuez 💪':'À retravailler 📚';
+    endHtml=`<div style="margin-top:1rem;text-align:center;padding:1.5rem;background:var(--color-background-secondary);border-radius:var(--border-radius-lg)">
+      <div style="font-size:32px;font-weight:500">${sc}/${max} pts</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin:.4rem 0">${msg} — ${pct}%</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:.75rem">✅ ${ok} correctes &nbsp; ⚠️ ${par} partielles &nbsp; ❌ ${ko} fausses</div>
+      <button onclick="restart()" style="padding:6px 18px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:13px;cursor:pointer">↺ Recommencer</button>
+    </div>`;
+  }
+
+  document.getElementById('qa').innerHTML=`
+    <div class="qcard">
+      <div class="qmeta">
+        <span class="badge ${q.c}">${catLabel[q.c]}</span>
+        <span class="qnum">Q${idx+1}</span>
+        <span class="multi-hint">— une ou plusieurs réponses correctes</span>
+      </div>
+      <p class="qtext">${q.q}</p>
+      <div class="opts">${optsHtml}</div>
+      ${!sub?`<button class="submit-btn" onclick="submit()" ${!(answered[idx]&&answered[idx].sel.length>0)?'disabled':''}>Valider</button>`:''}
+      ${explHtml}
+    </div>${endHtml}`;
+}
+
+window.toggleOpt=function(i){
+  if(answered[idx]&&answered[idx].submitted)return;
+  if(!answered[idx])answered[idx]={sel:[],submitted:false};
+  const s=answered[idx].sel;
+  const pos=s.indexOf(i);
+  if(pos>-1)s.splice(pos,1);else s.push(i);
+  render();
+};
+
+window.submit=function(){
+  if(!answered[idx]||!answered[idx].sel.length)return;
+  answered[idx].submitted=true;render();
+};
+
+window.restart=function(){answered={};idx=0;render();};
+
+document.getElementById('bp').onclick=function(){if(idx>0){idx--;render();}};
+document.getElementById('bn').onclick=function(){if(idx<deck.length-1){idx++;render();}};
+
+document.querySelectorAll('.cb').forEach(btn=>{
+  btn.onclick=function(){
+    document.querySelectorAll('.cb').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');cur_cat=this.dataset.c;setDeck();
+  };
+});
+render();
+</script>
